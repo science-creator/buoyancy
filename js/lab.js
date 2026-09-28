@@ -63,7 +63,7 @@
              "용수철의 길이는 어떻게 변할까? 직접 부어 보자.",
       scene: "spring", setup: { water: 0, object: "styro" }, allow: ["water", "object"],
       predict: { q: "물을 부으면 용수철의 길이는?",
-                 opts: ["<b>늘어난다</b>", "줄어든다", "변하지 않는다"], ans: 0 },
+                 opts: ["늘어난다", "줄어든다", "변하지 않는다"], ans: 0 },
       goals: [{ key: "poured", text: "물을 <b>절반 이상</b> 부어 보기" }],
       why: "<b>늘어납니다.</b> 학습지의 탐구 결과 그대로예요.<br>" +
            "물을 부으면 스타이로폼 구에 <b>중력과 반대 방향인 위쪽</b>으로 힘이 작용하기 때문입니다. " +
@@ -76,7 +76,7 @@
              "물속에서 잰 무게는 어떨까?",
       scene: "measure", setup: { count: 1 }, allow: ["count"],
       predict: { q: "물속에서 잰 추의 무게는?",
-                 opts: ["공기 중과 같다", "<b>공기 중보다 가볍다</b>", "공기 중보다 무겁다"], ans: 1 },
+                 opts: ["공기 중과 같다", "공기 중보다 가볍다", "공기 중보다 무겁다"], ans: 1 },
       /* ⚠ '장면을 보기만 하면' 되는 목표는 시작하자마자 깨진다(실제로 그랬다).
          학습지의 표를 채우는 것과 같은 **행동**을 목표로 삼는다. */
       goals: [{ key: "recorded", text: "<b>📋 지금 값 기록</b>을 눌러 두 무게를 기록하기" }],
@@ -90,7 +90,7 @@
              "추를 <b>4개 이상</b> 넣어 확인하자.",
       scene: "measure", setup: { count: 1 }, allow: ["count"],
       predict: { q: "잠긴 추가 많아지면 부력은?",
-                 opts: ["<b>커진다</b>", "작아진다", "변하지 않는다"], ans: 0 },
+                 opts: ["커진다", "작아진다", "변하지 않는다"], ans: 0 },
       goals: [{ key: "count4", text: "추를 <b>4개 이상</b> 넣어 부력 확인하기" }],
       why: "<b>커집니다.</b> 추가 늘면 <b>물속에 잠긴 부피</b>가 커지기 때문이에요.<br>" +
            "학습지의 문장 그대로입니다 — <b>물속에 잠긴 물체의 부피가 클수록 부력의 크기가 커진다.</b><br>" +
@@ -103,7 +103,7 @@
       scene: "spring", setup: { water: 100, object: "styro" }, allow: ["water", "object"],
       predict: { q: "부피가 같은데 하나는 뜨고 하나는 가라앉는 까닭은?",
                  opts: ["부력이 서로 다르기 때문",
-                        "<b>부력은 같지만 중력(무게)이 다르기 때문</b>",
+                        "부력은 같지만 중력(무게)이 다르기 때문",
                         "물의 깊이가 다르기 때문"], ans: 1 },
       goals: [{ key: "sankIron", text: "<b>⚫ 쇠</b>를 골라 가라앉는 것 확인하기" }],
       why: "<b>부력은 같지만 중력(무게)이 다르기 때문</b>입니다.<br>" +
@@ -118,7 +118,7 @@
              "짐을 <b>6000 g 이상</b> 실어 보자.",
       scene: "ship", setup: { cargo: 0 }, allow: ["cargo"],
       predict: { q: "짐을 많이 실으면 배가 받는 부력은?",
-                 opts: ["<b>커진다</b>", "작아진다", "변하지 않는다"], ans: 0 },
+                 opts: ["커진다", "작아진다", "변하지 않는다"], ans: 0 },
       goals: [{ key: "cargoBig", text: "짐을 <b>6000 g 이상</b> 실어 보기" }],
       why: "<b>커집니다.</b> 학습지의 문장 그대로예요 — " +
            "<b>짐을 가득 실은 배는 짐을 적게 실은 배보다 물에 더 많이 잠기므로 부력이 더 크게 작용한다.</b><br>" +
@@ -130,7 +130,7 @@
              "어떤 관계일까?",
       scene: "ship", setup: { cargo: 0 }, allow: ["cargo"],
       predict: { q: "떠 있는 배의 부력과 중력은?",
-                 opts: ["부력이 더 크다", "중력이 더 크다", "<b>두 힘의 크기가 같다</b>"], ans: 2 },
+                 opts: ["부력이 더 크다", "중력이 더 크다", "두 힘의 크기가 같다"], ans: 2 },
       goals: [{ key: "floatSeen", text: "짐을 바꿔 가며 <b>부력 = 중력</b> 확인하기" }],
       why: "<b>두 힘의 크기가 같습니다.</b><br>" +
            "떠 있다는 것은 위아래로 움직이지 않는다는 뜻이고, 그러려면 " +
@@ -630,7 +630,9 @@
       var opts = $("mOpts"); opts.innerHTML = "";
       M.predict.opts.forEach(function (t, i) {
         var b = document.createElement("button");
-        b.type = "button"; b.className = "opt"; b.innerHTML = t;
+        b.type = "button"; b.className = "opt";
+        /* 예측 보기에는 굵은 글씨를 쓰지 않는다 — 정답만 굵으면 답이 드러난다(2026-09-28). */
+        b.innerHTML = String(t).replace(/<\/?b>/g, "");
         b.addEventListener("click", function () {
           S.predictPick = i; S.missionState = "ready"; renderMissionBody();
         });
